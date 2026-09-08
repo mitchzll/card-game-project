@@ -30,10 +30,6 @@ app.use('/api/user', userRoutes);
 // Connexion à MongoDB et démarrage du serveur
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-    console.log(`🚀 Serveur en ligne sur le port ${PORT}`);
-});
-
 console.log("Vérification : l'URL MongoDB est-elle trouvée ? ->", process.env.MONGO_URI ? "Oui !" : "Non, toujours undefined");
 
 mongoose.connect(process.env.MONGO_URI)
