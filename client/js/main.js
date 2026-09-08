@@ -9,29 +9,25 @@ const btnDailyReward = document.getElementById('btn-daily-reward');
 const boosterCountDisplay = document.getElementById('booster-count');
 const boosterOpeningZone = document.getElementById('booster-opening-zone');
 const pulledCardsContainer = document.getElementById('pulled-cards-container');
-const btnCloseOpening = document.getElementById('btn-close-opening');
+const btnOpenAnother = document.getElementById('btn-open-another'); // Remplaçant de l'ancien bouton
 const collectionGrid = document.getElementById('collection-grid');
 const leaderboardBody = document.getElementById('leaderboard-body');
-const sortSelect = document.getElementById('sort-collection'); // NOUVEAU
+const sortSelect = document.getElementById('sort-collection'); 
 
-// Variable globale pour stocker la collection en mémoire
 let playerCollection = []; 
 
-// 1. Fonction utilitaire : Normaliser la rareté pour CSS
+// 1. Fonction utilitaire : Normaliser la rareté
 const normalizeRarity = (rarity) => {
     return rarity.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 };
 
-// 2. Générer le HTML d'une carte (Prend maintenant un argument "count")
+// 2. Générer le HTML d'une carte
 const createCardElement = (cardData, isFlipped = false, count = 1) => {
     const cardWrapper = document.createElement('div');
     cardWrapper.className = `card-wrapper ${isFlipped ? 'flipped' : ''}`;
-    // Plus besoin du position relative ici !
     
     const cssClass = normalizeRarity(cardData.rarity);
     const colorVar = `var(--color-${cssClass})`;
-
-    // Le badge devient un simple "span" discret
     const badgeHtml = count > 1 ? `<span class="card-count-badge">x${count}</span>` : '';
 
     cardWrapper.innerHTML = `
@@ -39,7 +35,6 @@ const createCardElement = (cardData, isFlipped = false, count = 1) => {
             <div class="card-front ${cssClass}">
                 <img src="${cardData.imageUrl}" alt="${cardData.name}">
                 <div class="card-details">
-                    <!-- NOUVEAU : Un conteneur flex pour aligner le nom et le badge -->
                     <div class="card-title-container">
                         <span class="card-name">${cardData.name}</span>
                         ${badgeHtml}
@@ -53,7 +48,6 @@ const createCardElement = (cardData, isFlipped = false, count = 1) => {
     return cardWrapper;
 };
 
-// --- Fonction de sécurité commune ---
 const handleAuthError = (status) => {
     if (status === 401) {
         localStorage.removeItem('jwt_token');
@@ -63,13 +57,10 @@ const handleAuthError = (status) => {
     return false;
 };
 
-// ==========================================
-// --- LOGIQUE DE TRI ET DE REGROUPEMENT
-// ==========================================
+// 3. Rendu de la collection
 const renderCollection = () => {
     if (!playerCollection || playerCollection.length === 0) return;
 
-    // 1. Regrouper les doublons via un dictionnaire (clé = ID de la carte)
     const groupedCards = {};
     playerCollection.forEach(card => {
         if (!groupedCards[card._id]) {
@@ -79,16 +70,12 @@ const renderCollection = () => {
         }
     });
 
-    // On re-transforme le dictionnaire en tableau pour pouvoir le trier
     let cardsArray = Object.values(groupedCards);
-
-    // 2. Trier le tableau
     const sortMethod = sortSelect.value;
     const rarityScores = { 'Commune': 1, 'Rare': 2, 'Épique': 3, 'Légendaire': 4 };
 
     cardsArray.sort((a, b) => {
         if (sortMethod === 'rarity-desc') {
-            // Si même rareté, on trie par ordre alphabétique
             if (rarityScores[b.rarity] === rarityScores[a.rarity]) return a.name.localeCompare(b.name);
             return rarityScores[b.rarity] - rarityScores[a.rarity];
         } 
@@ -102,7 +89,6 @@ const renderCollection = () => {
         return 0;
     });
 
-    // 3. Dessiner la grille
     collectionGrid.innerHTML = '';
     cardsArray.forEach(cardData => {
         const cardEl = createCardElement(cardData, true, cardData.count);
@@ -110,11 +96,9 @@ const renderCollection = () => {
     });
 };
 
-// Écouteur sur le menu déroulant : refait le rendu à chaque changement !
 sortSelect.addEventListener('change', renderCollection);
 
-
-// 3. Charger le profil et la collection
+// 4. Charger le profil et Leaderboard
 const loadPlayerProfile = async () => {
     const token = localStorage.getItem('jwt_token');
     if (!token) return;
@@ -124,38 +108,26 @@ const loadPlayerProfile = async () => {
             method: 'GET',
             headers: { 'user-id': token }
         });
-
         if (handleAuthError(response.status)) return;
-
         const data = await response.json();
-        if (!response.ok) throw new Error(data.error || "Erreur de chargement");
+        if (!response.ok) throw new Error(data.error);
 
         boosterCountDisplay.textContent = data.boosters_disponibles;
         navUsername.textContent = data.username; 
-
-        // On sauvegarde la collection globale en mémoire
         playerCollection = data.collection;
-        
-        // On déclenche l'affichage trié et groupé
         renderCollection();
-
     } catch (error) {
         console.error("Erreur profile :", error.message);
     }
 };
 
-// 4. Charger le Leaderboard
 const loadLeaderboard = async () => {
     const token = localStorage.getItem('jwt_token');
     if (!token) return;
 
     try {
-        const response = await fetch('/api/game/leaderboard', {
-            headers: { 'user-id': token }
-        });
-        
+        const response = await fetch('/api/game/leaderboard', { headers: { 'user-id': token } });
         if (handleAuthError(response.status)) return;
-        
         const data = await response.json();
 
         if (response.ok) {
@@ -176,6 +148,16 @@ const loadLeaderboard = async () => {
     }
 };
 
+// --- LOGIQUE DE FERMETURE COMMUNE ---
+const closeBoosterScreen = () => {
+    boosterOpeningZone.classList.add('hidden');
+    loadPlayerProfile();
+    loadLeaderboard();
+    pulledCardsContainer.innerHTML = '';
+    btnOpenBooster.disabled = false;
+    btnOpenAnother.style.display = 'none'; // Recacher le bouton
+};
+
 // 5. Ouvrir un booster
 btnOpenBooster.addEventListener('click', async () => {
     const token = localStorage.getItem('jwt_token');
@@ -187,88 +169,84 @@ btnOpenBooster.addEventListener('click', async () => {
     btnOpenBooster.disabled = true;
     pulledCardsContainer.innerHTML = '';
     boosterOpeningZone.classList.remove('hidden');
-    btnCloseOpening.classList.add('hidden');
+    btnOpenAnother.style.display = 'none'; 
 
     try {
         const response = await fetch('/api/game/open-booster', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'user-id': token
-            }
+            headers: { 'Content-Type': 'application/json', 'user-id': token }
         });
-
         if (handleAuthError(response.status)) return;
-
         const data = await response.json();
-        if (!response.ok) throw new Error(data.error || "Erreur inconnue");
+        if (!response.ok) throw new Error(data.error);
 
         boosterCountDisplay.textContent = data.boosters_restants;
 
-        // Générer le HTML des cartes (face cachée)
         const domCards = data.cards.map(cardData => {
             const cardEl = createCardElement(cardData, false);
             pulledCardsContainer.appendChild(cardEl);
             return cardEl;
         });
 
-        // --- NOUVEAU : Logique de la Pile (Stack) ---
-        let currentCardIndex = 0; // Index de la carte au sommet de la pile
+        let currentCardIndex = 0;
 
         domCards.forEach((cardEl, index) => {
-            // 1. On donne l'illusion de l'épaisseur du paquet
-            cardEl.style.zIndex = domCards.length - index; // La 1ère carte est tout au-dessus
-            cardEl.style.transform = `translate(${index * 4}px, ${index * 4}px)`; // Décalage visuel
+            cardEl.style.zIndex = domCards.length - index;
+            cardEl.style.transform = `translate(${index * 4}px, ${index * 4}px)`;
 
-            // 2. On écoute le clic
             cardEl.addEventListener('click', function() {
-                // SÉCURITÉ : On ne peut cliquer que sur la carte tout au-dessus !
                 if (index !== currentCardIndex) return;
 
-                // On la retourne (animation 3D de la face)
-                this.classList.add('flipped');
-                this.classList.add('slide-away');
-                
-                // CORRECTION 1 : On donne à la carte le z-index actuel pour qu'elle passe au-dessus de l'ancienne !
+                this.classList.add('flipped', 'slide-away');
                 this.style.zIndex = currentCardIndex;
-                
-                // CORRECTION 2 : On calcule un décalage dynamique pour créer un bel éventail visible
-                // On décale l'éventail beaucoup plus à gauche (-280px) et on resserre l'écartement (25px)
-this.style.transform = `translate(calc(-280px + ${currentCardIndex * 25}px), ${currentCardIndex * 5}px) rotate(-5deg)`;
+                this.style.transform = `translate(calc(-280px + ${currentCardIndex * 25}px), ${currentCardIndex * 5}px) rotate(-5deg)`;
                 currentCardIndex++;
                 
-                // Si c'était la dernière carte...
                 if (currentCardIndex === domCards.length) {
                     setTimeout(() => {
-                        btnCloseOpening.classList.remove('hidden');
+                        btnOpenAnother.style.display = 'block';
                     }, 800);
                 }
             });
         });
-
     } catch (error) {
         showPopup('Oups !', error.message, 'error');
-        boosterOpeningZone.classList.add('hidden');
-        btnOpenBooster.disabled = false;
+        closeBoosterScreen();
     }
 });
 
-// Ranger les cartes
-btnCloseOpening.addEventListener('click', () => {
-    boosterOpeningZone.classList.add('hidden');
-    loadPlayerProfile();
-    loadLeaderboard(); // Mise à jour des points après l'ouverture !
-    pulledCardsContainer.innerHTML = '';
-    btnOpenBooster.disabled = false;
+// --- GESTION UX (Échap, Clic extérieur, Bouton) ---
+
+// 1️⃣ Clic à l'extérieur
+boosterOpeningZone.addEventListener('click', (event) => {
+    if (event.target === boosterOpeningZone || event.target.tagName === 'H3') {
+        closeBoosterScreen();
+    }
+});
+
+// 2️⃣ Touche "Échap"
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !boosterOpeningZone.classList.contains('hidden')) {
+        closeBoosterScreen();
+    }
+});
+
+// 3️⃣ Bouton "Ouvrir un autre"
+btnOpenAnother.addEventListener('click', () => {
+    const currentBoosters = parseInt(boosterCountDisplay.textContent, 10) || 0;
+    if (currentBoosters > 0) {
+        closeBoosterScreen();
+        btnOpenBooster.click(); // Relance automatiquement
+    } else {
+        showPopup("Action impossible", "Tu n'as plus de boosters en réserve !", "info");
+        closeBoosterScreen();
+    }
 });
 
 // 6. Récompense Quotidienne
 btnDailyReward.addEventListener('click', async () => {
     const token = localStorage.getItem('jwt_token');
-    if (!token) {
-        showPopup('Action impossible', 'Tu dois être connecté pour récupérer une récompense.', 'info');
-        return;
-    }
+    if (!token) return;
 
     btnDailyReward.disabled = true;
 
@@ -277,9 +255,7 @@ btnDailyReward.addEventListener('click', async () => {
             method: 'POST',
             headers: { 'user-id': token }
         });
-
         if (handleAuthError(response.status)) return;
-
         const data = await response.json();
 
         if (response.ok) {
@@ -292,7 +268,7 @@ btnDailyReward.addEventListener('click', async () => {
             btnDailyReward.disabled = false;
         }
     } catch (error) {
-        showPopup('Erreur Serveur', 'Impossible de joindre le serveur pour le moment.', 'error');
+        showPopup('Erreur Serveur', 'Impossible de joindre le serveur.', 'error');
         btnDailyReward.disabled = false;
     }
 });
@@ -300,12 +276,10 @@ btnDailyReward.addEventListener('click', async () => {
 // ==========================================
 // --- GESTION DE L'ÉCRAN PROFIL & NAVIGATION
 // ==========================================
-
 const viewGame = document.getElementById('view-game');
 const viewProfile = document.getElementById('view-profile');
 const navLogo = document.getElementById('nav-logo');
 const navUsername = document.getElementById('nav-username');
-
 const profileDisplayName = document.getElementById('profile-display-name');
 const statTotalCards = document.getElementById('stat-total-cards');
 const statUniqueCards = document.getElementById('stat-unique-cards');
@@ -332,11 +306,9 @@ const loadProfileDashboard = async () => {
             method: 'GET',
             headers: { 'user-id': token }
         });
-
         if (handleAuthError(response.status)) return;
-
         const data = await response.json();
-        if (!response.ok) throw new Error(data.error || "Erreur de chargement du profil");
+        if (!response.ok) throw new Error(data.error);
 
         profileDisplayName.textContent = data.username;
         statTotalCards.textContent = data.totalCardsInInventory;
@@ -364,7 +336,6 @@ const loadProfileDashboard = async () => {
         typeBarsContainer.innerHTML = '';
         for (const [type, stats] of Object.entries(data.typesStats)) {
             const percentage = stats.total > 0 ? Math.round((stats.owned / stats.total) * 100) : 0;
-            
             typeBarsContainer.innerHTML += `
                 <div class="progress-item">
                     <div class="progress-item-header">
@@ -395,43 +366,15 @@ const loadProfileDashboard = async () => {
     } catch (error) {
         showPopup('Erreur Profil', error.message, 'error');
     }
+};
 
-    const boosterScreen = document.getElementById('booster-screen'); // Remplace par l'ID du div contenant tes cartes
-
-    // 1️⃣ Fermer avec la touche "Échap"
-    document.addEventListener('keydown', (event) => {
-        // Si l'écran des boosters est affiché (non caché) et qu'on appuie sur Échap
-        if (event.key === 'Escape' && boosterScreen.style.display !== 'none') {
-            closeBoosterScreen(); // Ta fonction existante pour retourner au menu
-        }
-    });
-
-    // 2️⃣ Fermer en cliquant n'importe où en dehors des cartes
-    boosterScreen.addEventListener('click', (event) => {
-        // Si on clique spécifiquement sur le fond de l'écran, et pas sur une carte
-        if (event.target === boosterScreen) {
-            closeBoosterScreen();
-        }
-    });
-
-    // 3️⃣ Gérer le bouton "Ouvrir un autre"
-    document.getElementById('btn-open-another').addEventListener('click', () => {
-        // Vérifier si le joueur a encore des boosters côté front (ex: variable locale)
-        if (playerBoostersCount > 0) {
-            closeBoosterScreen(); // On nettoie l'écran actuel
-            openBooster();        // On relance ton animation d'ouverture
-        } else {
-            alert("Tu n'as plus de boosters en réserve !");
-        }
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
+// ==========================================
+// --- INITIALISATION AU CHARGEMENT DE LA PAGE
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('jwt_token');
-    
-    // Si un token est présent (le joueur est connecté), on charge ses données et le classement
     if (token && token !== 'undefined' && token !== 'null') {
         loadPlayerProfile();
         loadLeaderboard();
     }
 });
-};
