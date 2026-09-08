@@ -395,4 +395,43 @@ const loadProfileDashboard = async () => {
     } catch (error) {
         showPopup('Erreur Profil', error.message, 'error');
     }
+
+    const boosterScreen = document.getElementById('booster-screen'); // Remplace par l'ID du div contenant tes cartes
+
+    // 1️⃣ Fermer avec la touche "Échap"
+    document.addEventListener('keydown', (event) => {
+        // Si l'écran des boosters est affiché (non caché) et qu'on appuie sur Échap
+        if (event.key === 'Escape' && boosterScreen.style.display !== 'none') {
+            closeBoosterScreen(); // Ta fonction existante pour retourner au menu
+        }
+    });
+
+    // 2️⃣ Fermer en cliquant n'importe où en dehors des cartes
+    boosterScreen.addEventListener('click', (event) => {
+        // Si on clique spécifiquement sur le fond de l'écran, et pas sur une carte
+        if (event.target === boosterScreen) {
+            closeBoosterScreen();
+        }
+    });
+
+    // 3️⃣ Gérer le bouton "Ouvrir un autre"
+    document.getElementById('btn-open-another').addEventListener('click', () => {
+        // Vérifier si le joueur a encore des boosters côté front (ex: variable locale)
+        if (playerBoostersCount > 0) {
+            closeBoosterScreen(); // On nettoie l'écran actuel
+            openBooster();        // On relance ton animation d'ouverture
+        } else {
+            alert("Tu n'as plus de boosters en réserve !");
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('jwt_token');
+    
+    // Si un token est présent (le joueur est connecté), on charge ses données et le classement
+    if (token && token !== 'undefined' && token !== 'null') {
+        loadPlayerProfile();
+        loadLeaderboard();
+    }
+});
 };

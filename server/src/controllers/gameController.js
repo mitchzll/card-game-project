@@ -95,13 +95,17 @@ exports.claimDailyReward = async (req, res) => {
         const now = new Date();
         const lastReward = user.lastDailyReward;
 
-        // Vérification du délai de 24h
+        // Vérification du délai de 1 heure
         if (lastReward) {
-            const diffHours = (now - new Date(lastReward)) / (1000 * 60 * 60);
-            if (diffHours < 24) {
-                const hoursLeft = Math.ceil(24 - diffHours);
+            const timeSinceLastReward = now.getTime() - new Date(lastReward).getTime();
+            const ONE_HOUR = 60 * 60 * 1000; // 1 heure en millisecondes
+
+            if (timeSinceLastReward < ONE_HOUR) {
+                // Calcul des minutes restantes
+                const minutesLeft = Math.ceil((ONE_HOUR - timeSinceLastReward) / (60 * 1000));
+                
                 return res.status(400).json({ 
-                    error: `Veuillez patienter encore ${hoursLeft}h pour le prochain booster.` 
+                    error: `Veuillez patienter encore ${minutesLeft} minute(s) pour le prochain booster gratuit.` 
                 });
             }
         }
