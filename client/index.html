@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Game - Jouer</title>
+    <!-- Les 3 fichiers CSS doivent impérativement être ici -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/animations.css">
+    <link rel="stylesheet" href="/css/auth.css">
+    <link rel="stylesheet" href="/css/popup.css"> <!-- C'est lui qui gère le visuel de la modale ! -->
+</head>
+<body class="dark-mode">
+
+    <!-- ÉCRAN D'AUTHENTIFICATION -->
+    <div id="auth-screen">
+        <div class="auth-card">
+            <h1 id="auth-title">Connexion</h1>
+            
+            <form id="auth-form">
+                <div class="input-group">
+                    <label for="username">Pseudo</label>
+                    <input type="text" id="username" required autocomplete="username">
+                </div>
+                <div class="input-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" required autocomplete="current-password">
+                </div>
+                
+                <p id="auth-error" class="error-message hidden"></p>
+                
+                <button type="submit" id="btn-auth-submit">Se connecter</button>
+            </form>
+
+            <p class="auth-toggle">
+                <span id="toggle-text">Pas encore de compte ?</span>
+                <a href="#" id="link-toggle-auth">S'inscrire</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- ÉCRAN DE JEU (Caché par défaut) -->
+    <!-- ÉCRAN DE JEU (Caché par défaut) -->
+    <div id="game-screen" style="display: none;">
+        
+        <!-- NOUVELLE BARRE DE NAVIGATION -->
+        <header class="game-header">
+            <div class="header-left">
+                <h1 id="nav-logo" class="nav-link">🃏 Card Game</h1>
+            </div>
+            <div class="header-right">
+                <span id="nav-username" class="nav-link">Mon Profil</span>
+                <button id="btn-logout" class="btn-danger">Déconnexion</button>
+            </div>
+        </header>
+
+        <!-- VUE 1 : LE JEU (Boosters & Collection) -->
+        <main id="view-game">
+            <section id="boosters-section">
+                <h2>Mes Boosters</h2>
+                <div class="booster-actions">
+                    <p>Boosters restants : <strong id="booster-count">-</strong></p>
+                    <div class="buttons-group">
+                        <button id="btn-open-booster">Ouvrir un Booster</button>
+                        <button id="btn-daily-reward" class="btn-success">🎁 Booster Gratuit</button>
+                    </div>
+                </div>
+                
+                <div id="booster-opening-zone" class="hidden">
+                    <h3>Nouveau Tirage !</h3>
+                    <div id="pulled-cards-container" class="cards-container"></div>
+                    <button id="btn-close-opening" class="hidden">Ranger dans ma collection</button>
+                </div>
+            </section>
+
+            <hr>
+
+            <section id="leaderboard-section">
+                <h2>Classement Mondial</h2>
+                <div class="table-container">
+                    <table id="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rang</th>
+                                <th>Joueur</th>
+                                <th>Score</th>
+                                <th>Cartes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-body"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <hr>
+
+            <section id="collection-section">
+                <div class="collection-header">
+                    <h2>Ma Collection</h2>
+                    <div class="collection-controls">
+                        <label for="sort-collection">Trier par :</label>
+                        <select id="sort-collection">
+                            <option value="rarity-desc">Rareté (Décroissant)</option>
+                            <option value="rarity-asc">Rareté (Croissant)</option>
+                            <option value="name-asc">Nom (A - Z)</option>
+                            <!-- La place est prête pour tes futurs tris (ex: Type, Valeur) -->
+                        </select>
+                    </div>
+                </div>
+                <div id="collection-grid" class="cards-grid"></div>
+            </section>
+        </main>
+
+        <!-- VUE 2 : LE PROFIL (Cachée par défaut) -->
+        <main id="view-profile" class="hidden">
+            <section class="profile-dashboard">
+                <h2>Tableau de Bord : <span id="profile-display-name">...</span></h2>
+                
+                <div class="stats-grid">
+                    <!-- Carte 1 : Chiffres globaux -->
+                    <div class="stat-card">
+                        <h3>Total des Cartes</h3>
+                        <p class="stat-big-number" id="stat-total-cards">0</p>
+                        <p class="stat-subtitle">Cartes uniques : <strong id="stat-unique-cards">0</strong></p>
+                    </div>
+
+                    <!-- Carte 2 : Complétion par Rareté -->
+                    <div class="stat-card double-width">
+                        <h3>Complétion par Rareté</h3>
+                        <div id="rarity-bars-container" class="progress-container">
+                            <!-- Les barres seront générées ici par JS -->
+                        </div>
+                    </div>
+
+                    <!-- Carte 3 : Complétion par Type -->
+                    <div class="stat-card">
+                        <h3>Cartes par Type (A venir)</h3>
+                        <div id="type-bars-container" class="progress-container">
+                            <!-- Les barres factices seront générées ici par JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+    </div>
+
+    <!-- SYSTÈME DE POP-UP PERSONNALISÉ -->
+    <div id="custom-popup" class="popup-overlay hidden">
+        <div class="popup-content">
+            <div class="popup-header">
+                <span id="popup-icon"></span>
+                <h3 id="popup-title">Titre</h3>
+                <button id="popup-close-cross">&times;</button>
+            </div>
+            <div class="popup-body">
+                <p id="popup-message">Ceci est un message de test.</p>
+            </div>
+            <div class="popup-footer">
+                <button id="popup-btn-close">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Les scripts JS doivent être chargés dans cet ordre -->
+    <script src="/js/popup.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

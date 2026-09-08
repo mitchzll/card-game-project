@@ -1,0 +1,72 @@
+/* --- Conteneur principal (Gère la perspective 3D) --- */
+.card-wrapper {
+    perspective: 1000px; /* Donne la profondeur à l'effet 3D */
+    width: 100%;
+    aspect-ratio: 2 / 3; /* Garde toujours un format carte à jouer */
+    background-color: transparent;
+    cursor: pointer;
+}
+
+/* --- Le bloc qui tourne (Contient le recto et le verso) --- */
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Effet fluide avec léger rebond */
+    transform-style: preserve-3d; /* Indispensable pour la 3D */
+    will-change: transform;
+}
+
+/* Quand la classe 'flipped' est ajoutée par le JS, on retourne la carte ! */
+.card-wrapper.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+/* --- Faces de la carte --- */
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Cache la face arrière pour Safari */
+    backface-visibility: hidden; /* Cache la face arrière des éléments */
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    overflow: hidden;
+}
+
+/* -- Le dos de la carte (Ce qu'on voit en premier quand on ouvre un booster) -- */
+.card-back {
+    /* Joli motif rayé pour le dos de la carte */
+    background: repeating-linear-gradient(
+        45deg,
+        #1f2937,
+        #1f2937 10px,
+        #111827 10px,
+        #111827 20px
+    );
+    border: 3px solid #374151;
+}
+
+/* -- La face de la carte (Cachée par défaut) -- */
+.card-front {
+    transform: rotateY(180deg); /* Elle est retournée de base pour apparaître quand le parent tourne */
+    background-color: #2d3748;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ajustement de l'image pour qu'elle s'intègre bien dans la carte */
+.card-front img {
+    width: 100%;
+    height: 70%;
+    object-fit: cover;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-details {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+}

@@ -1,0 +1,366 @@
+:root {
+    --bg-color: #121212;
+    --panel-bg: #1e1e1e;
+    --text-color: #f3f4f6;
+    
+    /* Couleurs des raretés */
+    --color-commune: #a0aec0;   /* Gris */
+    --color-rare: #3b82f6;      /* Bleu */
+    --color-epique: #8b5cf6;    /* Violet */
+    --color-legendaire: #f59e0b;/* Or */
+}
+
+body.dark-mode {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+header input {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #374151;
+    background: var(--panel-bg);
+    color: white;
+    width: 300px;
+}
+
+section {
+    background: var(--panel-bg);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+hr {
+    border-color: #374151;
+    margin: 30px 0;
+}
+
+button {
+    padding: 12px 24px;
+    background-color: var(--color-rare);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.1s, opacity 0.2s;
+}
+
+button:active { transform: scale(0.95); }
+button:disabled { background-color: #4b5563; cursor: not-allowed; }
+
+.hidden { display: none !important; }
+
+/* Grilles pour les cartes */
+.cards-container, .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Zone spécifique au tirage pour les centrer */
+.cards-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    min-height: 280px;
+}
+
+/* --- Boutons supplémentaires --- */
+.buttons-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.btn-success {
+    background-color: #10b981; /* Vert */
+}
+
+/* --- Tableau du Leaderboard --- */
+.table-container {
+    overflow-x: auto;
+    background: #2d3748;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    color: var(--text-color);
+}
+
+th, td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #4a5568;
+}
+
+th {
+    background-color: #1a202c;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+tr:hover { background-color: #374151; }
+
+/* Styles pour le Top 3 */
+tr:nth-child(1) td:first-child { color: #f59e0b; font-weight: bold; font-size: 1.2rem; } /* Or */
+tr:nth-child(2) td:first-child { color: #9ca3af; font-weight: bold; font-size: 1.1rem; } /* Argent */
+tr:nth-child(3) td:first-child { color: #b45309; font-weight: bold; font-size: 1.1rem; } /* Bronze */
+
+/* --- Barre de Navigation --- */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--panel-bg);
+    padding: 15px 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    position: sticky;
+    top: 15px;
+    z-index: 100;
+}
+
+.game-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* --- Barre de Navigation --- */
+.nav-link {
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--text-color); /* Le texte reste de cette couleur */
+    padding: 8px 15px;
+    border-radius: 50px; /* Coins totalement arrondis pour éviter l'effet rectangle/boîte */
+    background-color: transparent;
+    transition: box-shadow 0.4s ease; /* On anime uniquement l'apparition de l'aura */
+}
+
+/* Effet d'aura au survol */
+.nav-link:hover {
+    /* box-shadow: X Y Flou Étalement Couleur */
+    /* Cela crée une lumière bleue diffuse autour du texte */
+    box-shadow: 0 0 20px 5px rgba(85, 85, 85, 0.2); 
+}
+
+/* On ajuste la marge du logo pour compenser le padding */
+#nav-logo.nav-link {
+    margin: -8px -15px; 
+}
+
+/* --- Tableau de Bord Profil --- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.stat-card {
+    background: #2d3748;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Permet à la carte de rareté de prendre plus de place sur les grands écrans */
+@media (min-width: 900px) {
+    .double-width {
+        grid-column: span 2;
+    }
+}
+
+.stat-card h3 {
+    margin-top: 0;
+    color: #9ca3af;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid #4a5568;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.stat-big-number {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--color-rare);
+    margin: 10px 0;
+    text-align: center;
+}
+
+.stat-subtitle {
+    text-align: center;
+    color: #d1d5db;
+    font-size: 0.95rem;
+}
+
+/* --- Barres de progression (Préparation pour l'étape 3) --- */
+.progress-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.progress-item-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.progress-track {
+    width: 100%;
+    height: 12px;
+    background-color: #1a202c;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 6px;
+    /* Remplacement du cubic-bezier par un ease-out (fluide et sans rebond) */
+    transition: width 1s ease-out; 
+}
+
+.btn-danger {
+    background-color: #ef4444;
+    transition: all 0.2s ease; /* Rend l'animation fluide */
+}
+
+.btn-danger:hover {
+    background-color: #dc2626; /* Un rouge plus sombre */
+    /*transform: scale(1.01); /* Agrandit légèrement le bouton */
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.6); /* Ajoute une lueur rouge fondu */
+}
+
+/* --- En-tête de la Collection et Tri --- */
+.collection-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #4a5568;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.collection-header h2 {
+    margin: 0;
+    border: none;
+    padding: 0;
+}
+
+.collection-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.collection-controls label {
+    font-size: 0.9rem;
+    color: #9ca3af;
+}
+
+.collection-controls select {
+    padding: 8px 12px;
+    background-color: #1a202c;
+    color: white;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    outline: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.collection-controls select:focus {
+    border-color: var(--color-rare);
+}
+
+.card-title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    gap: 5px; /* Empêche un nom très long de coller au badge */
+}
+
+.card-name { 
+    font-size: 0.9rem; 
+    font-weight: bold; 
+    text-align: left;
+    margin-bottom: 0;
+    
+    /* Si le nom est trop long, on met des "..." à la fin */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* --- Badge "x10" intégré au thème --- */
+.card-count-badge {
+    background-color: #374151; /* Gris sombre du thème */
+    color: #e5e7eb; /* Texte clair */
+    font-weight: bold;
+    font-size: 0.85rem;
+    padding: 3px 6px;
+    border-radius: 6px; /* Petits bords arrondis */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4); /* Légère ombre interne pour l'incruster */
+    flex-shrink: 0; /* Protège le badge pour qu'il ne se fasse pas écraser par un nom long */
+}
+
+/* --- Zone d'ouverture : Pile de cartes (Stack) --- */
+.cards-container {
+    position: relative; /* Indispensable pour empiler des éléments absolus */
+    height: 250px; /* On fixe la hauteur du conteneur */
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    margin: 40px 0;
+}
+
+/* Les cartes de la pile */
+.cards-container .card-wrapper {
+    position: absolute;
+    width: 140px; /* Cartes beaucoup plus petites ! */
+    /* Transition fluide pour le glissement sur le côté */
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* L'effet de "jet de carte" quand on la retourne */
+.cards-container .card-wrapper.slide-away {
+    /* On l'envoie sur la gauche, un peu vers le bas, et on la penche */
+    pointer-events: none; /* Désactive le clic une fois retournée */
+}
+
+/* Petit effet de survol pour la carte au sommet de la pile */
+.cards-container .card-wrapper:not(.slide-away):hover {
+    filter: brightness(1.1);
+}

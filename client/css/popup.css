@@ -1,0 +1,105 @@
+/* --- Overlay (Fond sombre avec flou) --- */
+.popup-overlay {
+    position: fixed;
+    inset: 0; /* Prend tout l'écran */
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* Animation de fondu */
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.popup-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* --- La Boîte Modale --- */
+.popup-content {
+    background-color: var(--panel-bg, #1e1e1e);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    
+    /* Animation de "scale" et "slide up" */
+    transform: translateY(20px) scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.popup-overlay:not(.hidden) .popup-content {
+    transform: translateY(0) scale(1);
+}
+
+/* --- En-tête --- */
+.popup-header {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid #374151;
+}
+
+#popup-title {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-color, #f3f4f6);
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
+#popup-icon {
+    font-size: 1.2rem;
+}
+
+#popup-close-cross {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+#popup-close-cross:hover {
+    color: white;
+}
+
+/* --- Corps et Pied de page --- */
+.popup-body {
+    padding: 20px;
+    color: #d1d5db;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.popup-footer {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: flex-end;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+#popup-btn-close {
+    background-color: #374151;
+    padding: 8px 16px;
+    border-radius: 6px;
+}
+
+#popup-btn-close:hover {
+    background-color: #4b5563;
+}
+
+/* --- Thèmes dynamiques gérés par JS --- */
+.popup-content.success { border-top: 4px solid #10b981; }
+.popup-content.error { border-top: 4px solid #ef4444; }
+.popup-content.info { border-top: 4px solid #3b82f6; }

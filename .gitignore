@@ -1,0 +1,8 @@
+# Dépendances (les dossiers ultra lourds générés par npm)
+node_modules/
+server/node_modules/
+client/node_modules/
+
+# Fichiers de configuration et mots de passe (SÉCURITÉ MAXIMALE)
+.env
+server/.env
