@@ -1,34 +1,178 @@
 [
   {
-    "name": "Caillou ordinaire",
-    "baseItemName": "Caillou",
-    "rarity": "Commune",
-    "points": 1,
+    "name": "Meryl Streep",
+    "baseItemName": "Personnalités",
+    "rarity": "Légendaire",
+    "points": 100,
     "description": "Juste un caillou trouvé par terre. Ne sert à rien, mais il est sympa.",
     "imageUrl": "https://cdn.discordapp.com/attachments/1546643833092317286/1546643867124899911/2026-09-04-225933_hyprshot.png?ex=6aa087d9&is=6a9f3659&hm=abf747d31f9c06209e5620331ee20dceac7695902c4d2617d747e044b69e9f74&"
   },
   {
-    "name": "Météorite",
-    "baseItemName": "Caillou",
-    "rarity": "Légendaire",
-    "points": 100,
-    "description": "Un caillou qui a traversé le cosmos. Vaut probablement des millions.",
-    "imageUrl": "https://via.placeholder.com/200x300/f59e0b/ffffff?text=Meteore"
-  },
-  {
-    "name": "Nokia 3310",
-    "baseItemName": "Téléphone",
-    "rarity": "Rare",
-    "points": 5,
-    "description": "L'objet le plus indestructible de l'univers connu.",
-    "imageUrl": "https://via.placeholder.com/200x300/3b82f6/ffffff?text=Nokia"
-  },
-  {
-    "name": "Epic",
-    "baseItemName": "Téléphone",
+    "name": "Mickey",
+    "baseItemName": "wtf",
     "rarity": "Épique",
     "points": 20,
-    "description": "L'objet le plus indestructible de l'univers connu.",
-    "imageUrl": "https://via.placeholder.com/200x300/3b82f6/ffffff?text=Nokia"
+    "description": "Mickey il a changé",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546643833092317286/1546901069227888722/image.png?ex=6aa17762&is=6aa025e2&hm=baaeb0a84fae5dee17055ff4a4cfd3c7923a92999d94406b79b532290e60bffe&"
+  },
+  {
+    "name": "Paralysie du sommeil",
+    "baseItemName": "erwann",
+    "rarity": "Légendaire",
+    "points": 100,
+    "description": "A en faire des cauchemards",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546646198662991992/1546902727685177425/IMG_1868.jpg?ex=6aa178ee&is=6aa0276e&hm=8197b1b591e9da35f8a8dd2f56e41e90f1ac0096a6f510a535c6a8f64da10052&"
+  },
+  {
+    "name": "Lait maternel",
+    "baseItemName": "meme",
+    "rarity": "Rare",
+    "points": 5,
+    "description": "Une source d'énergie rare.",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546646198662991992/1546901301009318008/IMG_0061.jpg?ex=6aa1779a&is=6aa0261a&hm=ed587756163c4e4c2a493baa17729073c5e938669c0e0a34f879d9e5c075eb06&"
+  },
+  {
+    "name": "C15 Volkswagen",
+    "baseItemName": "voiture",
+    "rarity": "Épique",
+    "points": 20,
+    "description": "Le véhicule utilitaire ultime.",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546646198662991992/1546913232915140648/IMG_20260802_1841472.jpg?ex=6aa182b6&is=6aa03136&hm=6970292a6c7887d8f78047676dfc7b8a16aab2f81e2c39603e20674a31b90818&"
+  },
+  {
+    "name": "Golf Volkswagen",
+    "baseItemName": "voitures",
+    "rarity": "Rare",
+    "points": 5,
+    "description": "Un classique intemporel de la route.",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546643833092317286/1546914382028603392/IMG_20260802_1815312.jpg?ex=6aa183c8&is=6aa03248&hm=6700b958615199e5c7b0f0f7d9c5906d42f241162aea9db1193de780bd690f5a&"
+  },
+  {
+    "name": "Pizza",
+    "baseItemName": "nourriture",
+    "rarity": "Commune",
+    "points": 1,
+    "description": "Un encas basique mais efficace.",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546643833092317286/1546914494612115507/IMG_20260830_205224.jpg?ex=6aa183e3&is=6aa03263&hm=4fd3bafa8c12f22d694955606395d8b4dd2a912337a08893afebb8b449119659&"
+  },
+  {
+    "name": "Goat",
+    "baseItemName": "animal",
+    "rarity": "Légendaire",
+    "points": 100,
+    "description": "La plus granda de tous les temps.",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546643833092317286/1546914635280547871/IMG_20260804_181042.jpg?ex=6aa18405&is=6aa03285&hm=4b821b5f9a202c98ba8ff26dba54c7056a732c41ddbddcc53290aebf47d931d8&"
+  },
+  {
+    "name": "Charisme",
+    "baseItemName": "erwann",
+    "rarity": "Épique",
+    "points": 20,
+    "description": "Une prestance naturelle incontestable.",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546643833092317286/1546916111671369748/IMG_20260718_220108.jpg?ex=6aa18565&is=6aa033e5&hm=8fac30d7e64d91a2e890719f8889de70a9890850d274fa14917ace8ff3668c7f&"
+  },
+  {
+    "name": "Swag",
+    "baseItemName": "mervyn",
+    "rarity": "Épique",
+    "points": 20,
+    "description": "Un style incomparable.",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546643833092317286/1546916350667264011/IMG_20260726_131345.jpg?ex=6aa1859e&is=6aa0341e&hm=1e0fa8ea300d79b7598676d2a115b8c15c0f96837c809179589ca5df6b3314d2&"
+  },
+  {
+    "name": "Câble management",
+    "baseItemName": "informatique",
+    "rarity": "Commune",
+    "points": 1,
+    "description": "L'art de cacher la misère.",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546643833092317286/1546916604707872828/IMG_20260807_150740.jpg?ex=6aa185da&is=6aa0345a&hm=741f6bb6bb28b858a7cdb631716220eaee154d2d2c8b1089390607927d185226&"
+  },
+  {
+    "name": "Combo du matin",
+    "baseItemName": "nourriture",
+    "rarity": "Rare",
+    "points": 5,
+    "description": "Pour bien démarrer la journée.",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546643833092317286/1546916709359943710/IMG_20260902_162530.jpg?ex=6aa185f3&is=6aa03473&hm=6de0a8901ea73e43defab2cb10bbd44436330e1bd0fdce4cfa8bf30ea81fabfe&"
+  },
+  {
+    "name": "Pickoup Peugeot",
+    "baseItemName": "Peugeot",
+    "rarity": "Légendaire",
+    "points": 100,
+    "description": "La robustesse à la française.",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546643833092317286/1546916960523259996/watermark-bb548ef3126b9823ad6a389dc692477d_1.jpg?ex=6aa1862f&is=6aa034af&hm=f7c0d9bf6f3ba1abf6abfa764e82a96dbdcb6db8e69e7be39b95f7bac901ba36&"
+  },
+  {
+    "name": "1kg de sushis",
+    "baseItemName": "nourriture",
+    "rarity": "Épique",
+    "points": 20,
+    "description": "Un festin japonais conséquent.",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546643833092317286/1546917370663145543/IMG_20260308_222658.jpg?ex=6aa18691&is=6aa03511&hm=0ecc82fef5e0f66928f5978d976dce37b11ae5a19a7f1f157f7021bc3e106d14&"
+  },
+  {
+    "name": "Position fœtale",
+    "baseItemName": "chat",
+    "rarity": "Épique",
+    "points": 20,
+    "description": "position de sommeil ancestrale",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546643833092317286/1546917646015004692/IMG_20251231_000348.jpg?ex=6aa186d3&is=6aa03553&hm=b8b87cdea55e3cb2e57f327cd7c1b460b7b223c7973d1d95386b4ee66eb0bee8&"
+  },
+  {
+    "name": "Poubelle de tri",
+    "baseItemName": "objets",
+    "rarity": "Épique",
+    "points": 20,
+    "description": "Le respect de l'écologie au sommet.",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546643833092317286/1546917872704421960/IMG_20251218_205509.jpg?ex=6aa18709&is=6aa03589&hm=ae09ab5da5c0ffcc7af6fed4ff037b2f90bad1a3f76b7cc7544bb1e7c818429a&"
+  },
+  {
+    "name": "Bonus de proteines",
+    "baseItemName": "nourriture",
+    "rarity": "Épique",
+    "points": 20,
+    "description": "Indispensable pour la prise de masse.",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546643833092317286/1546918522418892900/IMG_20250907_195600.jpg?ex=6aa187a4&is=6aa03624&hm=9784e74ebf6e04d4c86682e1c36ba0f2aed44ec1bb5a61052aefb4c0470e0801&"
+  },
+  {
+    "name": "Poussin en papier",
+    "baseItemName": "animaux",
+    "rarity": "Épique",
+    "points": 20,
+    "description": "t'imagine pas le temps que ça m'a pris",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546643833092317286/1546918879266209922/IMG_20250619_161336.jpg?ex=6aa187f9&is=6aa03679&hm=c32a7ccf555f615a62f673b471550d40a56a219bf262fb8fe9acf76aad618ebe&"
+  },
+  {
+    "name": "Donuts",
+    "baseItemName": "nourriture",
+    "rarity": "Commune",
+    "points": 1,
+    "description": "Le diabète en personne.",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546643833092317286/1546918989454909503/IMG_20260418_185724.jpg?ex=6aa18813&is=6aa03693&hm=eef9df35da8dfcc5dfb7b66024e39b0afe89fb77099fb038a3d03983bdfa1257&"
+  },
+  {
+    "name": "Arnaque",
+    "baseItemName": "nourriture",
+    "rarity": "Commune",
+    "points": 1,
+    "description": "Quand la portion ne correspond pas à l'attente.",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546643833092317286/1546919152822784052/IMG_20251009_2048312.jpg?ex=6aa1883a&is=6aa036ba&hm=0c5327a3876a35ce9e1fa569e146c9a13b7973b093f9ef734b616b2cea31cb53&"
+  },
+  {
+    "name": "Bac",
+    "baseItemName": "objet",
+    "rarity": "Rare",
+    "points": 5,
+    "description": "GG tu sais lire",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546643833092317286/1546919292887633950/IMG_20260830_123848.jpg?ex=6aa1885b&is=6aa036db&hm=5948be6ff98952b48ec08997cdee5c2d4d48a5ae31cc0694fbfc971c7e22b78b&"
+  },
+  {
+    "name": "Télécommande de clim",
+    "baseItemName": "objet",
+    "rarity": "Commune",
+    "points": 1,
+    "description": "Rareté dépendant de la saison",
+    "imageUrl": "https://cdn.discordapp.com/attachments/1546643833092317286/1546919499083677727/IMG_20260728_212357.jpg?ex=6aa1888c&is=6aa0370c&hm=9fdd459826bb6d0f78d0b49138e074a4379bac87c52704ca18a251cafdf14a1a&"
   }
 ]

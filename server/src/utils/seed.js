@@ -1,44 +1,38 @@
 const path = require('path');
-// On remonte de deux dossiers (depuis src/utils vers server) pour trouver le .env
-require('dotenv').config({ path: path.join(__dirname, '../../.env') });
+// Charge le .env situé dans /server/.env
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
 const mongoose = require('mongoose');
-const fs = require('fs');
-const Card = require('../models/Card'); 
+// Remonte d'un niveau (sort de utils/) pour entrer dans models/
+const Card = require('../models/Card');
+// Remonte d'un niveau pour entrer dans data/
+const cardsData = require('../data/cards-data.json');
 
-// On utilise maintenant l'URI de ton fichier .env en toute sécurité
-const MONGO_URI = process.env.MONGO_URI; 
-
-const seedDatabase = async () => {
-    if (!MONGO_URI) {
-        console.error("❌ Erreur : MONGO_URI est introuvable. Vérifie ton fichier .env !");
-        process.exit(1);
+async function syncCards() {
+  try {
+    const uri = process.env.MONGO_URI;
+    if (!uri) {
+      console.error("❌ Variable MONGO_URI introuvable dans le .env");
+      process.exit(1);
     }
 
-    try {
-        await mongoose.connect(MONGO_URI);
-        console.log('🔌 Connecté à MongoDB.');
+    await mongoose.connect(uri);
+    console.log('Connecté à MongoDB pour la synchronisation...');
 
-        // 1. On vide la table actuelle pour éviter les doublons
-        console.log('🗑️ Nettoyage de l\'ancienne collection de cartes...');
-        await Card.deleteMany({});
-
-        // 2. On lit le fichier JSON
-        console.log('📖 Lecture du fichier cards-data.json...');
-        const dataPath = path.join(__dirname, '../data/cards-data.json');
-        const rawData = fs.readFileSync(dataPath, 'utf-8');
-        const cards = JSON.parse(rawData);
-
-        // 3. On insère toutes les cartes d'un coup
-        console.log(`⏳ Insertion de ${cards.length} cartes...`);
-        await Card.insertMany(cards);
-
-        console.log('✅ Succès ! Le catalogue est à jour.');
-        process.exit(0);
-    } catch (error) {
-        console.error('❌ Erreur lors de l\'importation :', error);
-        process.exit(1);
+    for (const card of cardsData) {
+      await Card.updateOne(
+        { name: card.name },
+        { $set: card },
+        { upsert: true }
+      );
     }
-};
 
-seedDatabase();
+    console.log(`✅ ${cardsData.length} cartes synchronisées avec succès !`);
+    process.exit(0);
+  } catch (error) {
+    console.error('Erreur lors de la synchronisation :', error);
+    process.exit(1);
+  }
+}
+
+syncCards();
